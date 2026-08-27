@@ -60,14 +60,11 @@ export class AuthService {
     }
 
     // Obtener tiempos de expiración desde las variables de entorno
-    const accessTokenExp = this.configService.get<string>(
-      'JWT_EXPIRATION_ACCESS',
-      '60s',
-    );
-    const refreshTokenExp = this.configService.get<string>(
+    const accessTokenExp = this.configService.get(
+      'JWT_EXPIRATION_ACCESS','60s') as any;
+    const refreshTokenExp = this.configService.get(
       'JWT_EXPIRATION_REFRESH',
-      '7d',
-    );
+      '7d') as any;
 
     // Generar los tokens
   // const payload = { id: usuario.id, rolId: 1 , empresaId: empresaId , puntoVentaId: process.env.PUNTO_VENTA_ACTIVO_ID };

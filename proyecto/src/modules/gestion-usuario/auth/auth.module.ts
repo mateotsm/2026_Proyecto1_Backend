@@ -18,8 +18,8 @@ import { RolModule } from '../rol/rol.module';
     imports: [ConfigModule],
     inject: [ConfigService],
     useFactory: async (configService: ConfigService) => ({
-      secret: configService.get<string>('JWT_SECRET'),
-      signOptions: { expiresIn: configService.get<string>('JWT_EXPIRATION_ACCESS') }, // Valor por defecto
+      secret: configService.get('JWT_SECRET'),
+      signOptions: { expiresIn: configService.get<string>('JWT_EXPIRATION_ACCESS') as any}, // Valor por defecto
     }),
   }),
   UsuarioModule,
