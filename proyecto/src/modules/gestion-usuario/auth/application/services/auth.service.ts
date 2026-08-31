@@ -154,10 +154,11 @@ export class AuthService {
     );
 
     const accessToken = this.jwtService.sign(payloadJwt, {
-      expiresIn: accessTokenExp,
+      expiresIn: process.env.JWT_EXPIRATION_ACCESS as string,
     });
+
     const refreshToken = this.jwtService.sign(payloadJwt, {
-      expiresIn: refreshTokenExp,
+      expiresIn: process.env.JWT_EXPIRATION_REFRESH as string,
     });
 
     return {
