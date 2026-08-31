@@ -52,47 +52,36 @@ export class SeedUsuarioService {
 
  // Seed de Usuarios
 async seedUsuario() {
-
   const entryData = [
-    { mail: 'admin@gmail.com', contrasena: 'admin1234', rol: "Admin", denominacion:"Admin" },
-  
+    { mail: 'admin@gmail.com', contrasena: 'Admin1234', rol: "Admin", denominacion:"Admin" },
   ];
 
   for (const data of entryData) {
-
-    const rol = await this.rolRepository.findOneBy({
-      denominacion: data.rol
-    });
+    const rol = await this.rolRepository.findOneBy({ denominacion: data.rol });
 
     if (!rol) {
       console.log(`❌ No se encontró el rol "${data.rol}".`);
       continue;
     }
 
-    const exists = await this.usuarioRepository.findOneBy({
-      mail: data.mail
-    });
-
+    // Borrar si ya existe para recrearlo con la nueva contraseña
+    const exists = await this.usuarioRepository.findOneBy({ mail: data.mail });
     if (exists) {
-      console.log(`⚠️ Usuario "${data.mail}" ya existe.`);
-      continue;
+      await this.usuarioRepository.delete({ mail: data.mail });
+      console.log(`🗑️ Usuario "${data.mail}" eliminado para recrear.`);
     }
 
     const contrasenaHasheada = await bcrypt.hash(data.contrasena, 10);
-
     const usuario = this.usuarioRepository.create({
       mail: data.mail,
       contrasena: contrasenaHasheada,
       denominacion: data.denominacion,
-      roles: [rol], 
+      roles: [rol],
     });
-
     await this.usuarioRepository.save(usuario);
-
     console.log(`✅ Usuario "${data.mail}" creado.`);
   }
 }
-
 
   // Ejecutar todos los seeds
   async runAllSeeds() {
