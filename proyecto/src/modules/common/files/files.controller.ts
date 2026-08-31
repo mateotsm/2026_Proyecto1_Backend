@@ -9,7 +9,7 @@ export class FilesController {
   @Post('producto')
   @UseInterceptors(FileInterceptor('file'))
   uploadProducto(
-    @UploadedFile() file: Express.Multer.File
+    @UploadedFile() file: any
   ) { 
     return file;
   }

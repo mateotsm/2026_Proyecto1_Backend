@@ -152,13 +152,11 @@ export class AuthService {
       'JWT_EXPIRATION_REFRESH',
       '7d',
     );
-
     const accessToken = this.jwtService.sign(payloadJwt, {
-      expiresIn: process.env.JWT_EXPIRATION_ACCESS as string,
+      expiresIn: accessTokenExp as any,
     });
-
     const refreshToken = this.jwtService.sign(payloadJwt, {
-      expiresIn: process.env.JWT_EXPIRATION_REFRESH as string,
+      expiresIn: refreshTokenExp as any,
     });
 
     return {

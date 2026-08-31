@@ -370,7 +370,7 @@ No se les ocurra sacar primero a bell ville
           domicilio: data.domicilio,
           email: data.email,
           condicionIva: categoriaIva,
-        } as DeepPartial<Empresa>);
+        } as any);
 
         await this.empresaRepository.save(dataGuardada);
         console.log(`✅ Empresa"${data.denominacion}" creada.`);
