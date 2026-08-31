@@ -144,14 +144,14 @@ export class AuthService {
     };
 
 
-    const accessTokenExp = this.configService.get<string>(
+    const accessTokenExp = this.configService.get(
       'JWT_EXPIRATION_ACCESS',
       '60s',
-    );
-    const refreshTokenExp = this.configService.get<string>(
+    ) as any;
+    const refreshTokenExp = this.configService.get(
       'JWT_EXPIRATION_REFRESH',
       '7d',
-    );
+    ) as any;
 
     const accessToken = this.jwtService.sign(payloadJwt, {
       expiresIn: accessTokenExp,
