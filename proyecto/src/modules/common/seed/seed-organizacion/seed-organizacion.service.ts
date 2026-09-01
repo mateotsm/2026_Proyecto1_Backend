@@ -509,7 +509,7 @@ async seedPersonal() {
     {
       denominacion: 'Thomas Perez',
       mail: 'tomasPerez@gmail.com',
-      contrasena: 'tomas',
+      contrasena: '12345678',
       sistema: 1,
       localidad: 'VILLA MARIA',
       esVendedor: false,
@@ -546,7 +546,14 @@ async seedPersonal() {
     });
 
     if (existsPersonal) {
-      console.log(`⚠️ Personal "${data.mail}" ya existe.`);
+      if (existsPersonal.usuario) {
+        const contrasenaHasheada = await bcrypt.hash(data.contrasena, 10);
+        existsPersonal.usuario.contrasena = contrasenaHasheada;
+        await this.usuarioRepository.save(existsPersonal.usuario);
+        console.log(`🔄 Contraseña de usuario para Personal "${data.mail}" actualizada.`);
+      } else {
+        console.log(`⚠️ Personal "${data.mail}" ya existe.`);
+      }
       continue;
     }
 
