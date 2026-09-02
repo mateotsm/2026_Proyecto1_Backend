@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './modules/common/filters/global-exception.filters';
-import { ValidationPipe } from '@nestjs/common';
+import { RequestMethod, ValidationPipe } from '@nestjs/common';
 import * as bodyParser from 'body-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -30,7 +30,9 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentFactory);
 
   // Configurar prefijo para endpoints
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', {
+    exclude: [{ path: '/', method: RequestMethod.ALL }],
+  });
 
   // Configurar filtro global de excepciones
   app.useGlobalFilters(new GlobalExceptionFilter());
