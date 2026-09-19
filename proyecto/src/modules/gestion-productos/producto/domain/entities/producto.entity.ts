@@ -29,6 +29,9 @@ export class Producto {
   @Column({ type: 'text' })
   denominacion: string;
 
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  presentacion?: string | null;
+
   @Index()
   @Column({ type: 'varchar', length: 255, nullable: true })
   codigoProveedor?: string | null;

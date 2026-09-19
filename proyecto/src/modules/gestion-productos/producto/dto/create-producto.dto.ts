@@ -78,6 +78,12 @@ export class CreateProductoDto {
   envioGratis?: boolean;
 
   @IsOptional()
+  @IsString({ message: 'La presentación debe ser texto.' })
+  @MaxLength(100, { message: 'La presentación no puede superar 100 caracteres.' })
+  @IsNotEmpty({ message: 'La presentación no puede estar vacía.' })
+  presentacion?: string;
+
+  @IsOptional()
   @IsNumber({}, { message: 'El costo debe ser un número.' })
   @Min(0.01, { message: 'El costo debe ser mayor a 0.' })
   costo?: number;
