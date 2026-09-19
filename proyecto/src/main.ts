@@ -7,7 +7,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  app.enableCors({
+  origin: process.env.FRONTEND_URL || '*',
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -41,7 +43,7 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
   // inspeccion de rutas
-  const router = app.getHttpAdapter().getInstance();
-  console.log(router._router?.stack);
+  //const router = app.getHttpAdapter().getInstance();
+  //console.log(router._router?.stack);
 }
 bootstrap();
