@@ -11,6 +11,8 @@ import { DataSource } from 'typeorm';
 import { IUnitOfWork } from 'src/modules/common/unit-of-work/iunit-of-work.';
 import { ProveedorModule } from 'src/modules/organizacion/proveedor/proveedor.module';
 import { UsuarioModule } from 'src/modules/gestion-usuario/usuario/usuario.module';
+import { HistorialPrecioModule } from '../historial-precio/historial-precio.module';
+import { ActualizacionMasivaPrecioService } from './application/services/actualizacion-masiva-precio.service';
 import { CommonModule } from 'src/modules/common/common.module';
 import { ProductoService } from './application/services/producto.service';
 import { ProductoPersistenceAdapter } from './infraestructure/repositories/producto.persistence-adapters';
@@ -29,6 +31,7 @@ import { ProductoDeletePolicy } from './application/policies/producto-delete.pol
     forwardRef(() => MarcaModule),
     ProveedorModule,
     UsuarioModule,
+    HistorialPrecioModule,
   ],
 
   controllers: [ProductoController],
@@ -54,11 +57,13 @@ import { ProductoDeletePolicy } from './application/policies/producto-delete.pol
     },
     NormalizeDenominacionPipe,
     ProductoPersistenceAdapter,
+    ActualizacionMasivaPrecioService,
   ],
   
   exports: [
     TypeOrmModule,
     ProductoService,
+    ActualizacionMasivaPrecioService,
     ProductoPersistenceAdapter,
     'IProductoRepository',
   ],

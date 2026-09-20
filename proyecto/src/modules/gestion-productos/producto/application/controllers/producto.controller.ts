@@ -31,6 +31,8 @@ import { NormalizeDenominacionSearchPipe } from 'src/modules/common/pipes/normal
 import { DenominacionBusquedaDto } from 'src/modules/common/dto/denominacion-busqueda.dto';
 import { SearchProductoRapidoDto } from '../../dto/search-producto-rapido.dto';
 import { ProductoService } from '../services/producto.service';
+import { ActualizacionMasivaPrecioDto } from '../../dto/actualizacion-masiva-precio.dto';
+import { ActualizacionMasivaPrecioService } from '../services/actualizacion-masiva-precio.service';
 
 
 @ApiTags('Gestion Productos')
@@ -38,7 +40,10 @@ import { ProductoService } from '../services/producto.service';
 @UseGuards(AuthGuard)
 export class ProductoController {
   private readonly logger = new Logger(ProductoController.name);
-  constructor(private readonly service: ProductoService) {}
+  constructor(private readonly service: ProductoService,
+    private readonly actualizacionMasivaService: ActualizacionMasivaPrecioService,
+    
+  ) {}
 
   private readonly ENTITY_NAME = 'Producto';
 
@@ -191,5 +196,10 @@ export class ProductoController {
   ): Promise<AuditoriaDto> {
     const data = await this.service.findByIdConAuditoria(id);
     return data;
+  }
+  @Post('actualizar-precios-masivo')
+  @Roles('Administrador', 'Root')
+  actualizarPreciosMasivo(@Body() dto: ActualizacionMasivaPrecioDto) {
+    return this.actualizacionMasivaService.actualizarPrecios(dto);
   }
 }
