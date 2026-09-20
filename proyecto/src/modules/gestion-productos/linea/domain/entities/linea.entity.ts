@@ -7,9 +7,12 @@ import {
   DeleteDateColumn,
   OneToMany,
   Index,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 import { Producto } from '../../../producto/domain/entities/producto.entity';
+import { SuperLinea } from './super-linea.entity';
 import { CantidadColumn } from 'src/modules/common/decorators/cantidad-column.decorator';
 
 @Entity('linea')
@@ -32,6 +35,13 @@ export class Linea {
 
   @CantidadColumn()
   stockMinimo: number;
+
+  @ManyToOne(() => SuperLinea, (superLinea) => superLinea.lineas, { nullable: true, eager: false })
+  @JoinColumn({ name: 'super_linea_id' })
+  superLinea?: SuperLinea;
+
+  @Column({ name: 'super_linea_id', type: 'int', nullable: true })
+  superLineaId?: number;
 
   @CreateDateColumn()
   createdAt: Date;
