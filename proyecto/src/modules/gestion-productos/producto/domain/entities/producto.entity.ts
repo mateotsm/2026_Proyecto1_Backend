@@ -7,7 +7,9 @@ import {
   ManyToOne,
   Index,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
+import { HistorialPrecio } from './historial-precio.entity';
 import { Linea } from '../../../linea/domain/entities/linea.entity';
 import { Marca } from '../../../marca/domain/entities/marca.entity';
 import { AlicuotaIva } from 'src/modules/organizacion/enums/alicuota-iva.enum';
@@ -18,6 +20,7 @@ import { MonetarioColumn } from 'src/modules/common/decorators/monetario-column.
 import { CantidadColumn } from 'src/modules/common/decorators/cantidad-column.decorator';
 import { PorcentajeColumn } from 'src/modules/common/decorators/porcentaje-column.decorator';
 import { Proveedor } from 'src/modules/organizacion/proveedor/domain/entities/proveedor.entity';
+
 
 @Entity('producto')
 export class Producto {
@@ -114,6 +117,9 @@ export class Producto {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @OneToMany(() => HistorialPrecio, (h) => h.producto)
+  historialPrecios: HistorialPrecio[];
 
   @UpdateDateColumn()
   updatedAt: Date;
