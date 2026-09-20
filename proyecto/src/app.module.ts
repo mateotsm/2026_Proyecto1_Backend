@@ -27,6 +27,7 @@ import { EmpresaOperacionModule } from './modules/organizacion/empresa-operacion
 import { ClienteOperacionModule } from './modules/organizacion/cliente-operacion/cliente-operacion.module';
 import { ProductoOperacionModule } from './modules/gestion-productos/producto-operacion/producto-operacion.module';
 import { SuperLineaModule } from './modules/gestion-productos/super-linea/super-linea.module';
+import { HistorialPrecioModule } from './modules/gestion-productos/historial-precio/historial-precio.module';
 import { BusquedasModule } from './modules/gestion-documentos/busquedas/busquedas.module';
 
 @Module({
@@ -79,6 +80,7 @@ import { BusquedasModule } from './modules/gestion-documentos/busquedas/busqueda
     SuperLineaModule,
     BusquedasModule,
     SuperLineaModule,
+    HistorialPrecioModule,
   ],
   controllers: [AppController],
   providers: [AppService],
