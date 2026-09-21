@@ -67,8 +67,13 @@ async seedUsuario() {
     // Borrar si ya existe para recrearlo con la nueva contraseña
     const exists = await this.usuarioRepository.findOneBy({ mail: data.mail });
     if (exists) {
-      await this.usuarioRepository.delete({ mail: data.mail });
-      console.log(`🗑️ Usuario "${data.mail}" eliminado para recrear.`);
+      const contrasenaHasheada = await bcrypt.hash(data.contrasena, 10);
+      await this.usuarioRepository.update(
+        { mail: data.mail },
+        { contrasena: contrasenaHasheada }
+      );
+      console.log(`🔄 Usuario "${data.mail}" actualizado.`);
+      continue;
     }
 
     const contrasenaHasheada = await bcrypt.hash(data.contrasena, 10);
