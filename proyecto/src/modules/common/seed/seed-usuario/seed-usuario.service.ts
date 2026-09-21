@@ -53,7 +53,7 @@ export class SeedUsuarioService {
  // Seed de Usuarios
 async seedUsuario() {
   const entryData = [
-    { mail: 'superadmin@gmail.com', contrasena: 'Admin1234', rol: "Administrador", denominacion:"Administrador" },,
+    { mail: 'superadmin@gmail.com', contrasena: 'Admin1234', rol: "Administrador", denominacion:"Administrador" },
   ];
 
   for (const data of entryData) {
