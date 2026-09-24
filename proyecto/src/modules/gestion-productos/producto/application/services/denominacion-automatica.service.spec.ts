@@ -3,19 +3,19 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { DenominacionAutomaticaService } from './denominacion-automatica.service';
 import { Producto } from '../../domain/entities/producto.entity';
 import { BadRequestException } from '@nestjs/common';
-import { Marca } from '../../domain/entities/marca.entity';
-import { Linea } from '../../domain/entities/linea.entity';
+//import { Marca } from '../../domain/entities/marca.entity';
+//import { Linea } from '../../domain/entities/linea.entity';
 
 // Mock de Marca y Línea
-//const mockMarca = {
-//  id: 1,
-//  denominacion: 'COCA COLA',
-//};
+const mockMarca = {
+  id: 1,
+  denominacion: 'COCA COLA',
+};
 
-//const mockLinea = {
-//  id: 1,
-//  denominacion: 'BEBIDAS',
-//};
+const mockLinea = {
+  id: 1,
+  denominacion: 'BEBIDAS',
+};
 
 const mockPresentacion = {
   id: 1,
