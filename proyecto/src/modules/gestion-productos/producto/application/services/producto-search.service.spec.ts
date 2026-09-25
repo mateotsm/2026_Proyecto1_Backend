@@ -67,49 +67,62 @@ describe('ProductoSearchService — CR-004 Búsqueda', () => {
   // ========== BÚSQUEDA POR DENOMINACIÓN ==========
 
   it('CR-004: debe buscar por denominación exacta', async () => {
-    mockQueryBuilder.getMany.mockResolvedValue([mockProductos[0]]);
+    mockQueryBuilder.skip.mockReturnThis();
+    mockQueryBuilder.take.mockReturnThis();
+    mockQueryBuilder.getManyAndCount.mockResolvedValue([[mockProductos[0]], 1]);
     
-    const resultado = await service.buscarPorDenominacion('Coca Cola 2.5L');
+    const resultado = await service.buscarPorDenominacion('Coca Cola 2.5L', 0, 10);
     
     expect(mockQueryBuilder.where).toHaveBeenCalled();
-    expect(resultado).toHaveLength(1);
-    expect(resultado[0].denominacion).toBe('Coca Cola 2.5L');
+    expect(resultado.data).toHaveLength(1);
+    expect(resultado.data[0].denominacion).toBe('Coca Cola 2.5L');
   });
 
   it('CR-004: debe buscar por denominación con coincidencias parciales (LIKE)', async () => {
-    mockQueryBuilder.getMany.mockResolvedValue([mockProductos[0], mockProductos[1]]);
+    mockQueryBuilder.skip.mockReturnThis();
+    mockQueryBuilder.take.mockReturnThis();
+    mockQueryBuilder.getManyAndCount.mockResolvedValue([[mockProductos[0], mockProductos[1]], 2]);
     
-    const resultado = await service.buscarPorDenominacion('Coca');
+    const resultado = await service.buscarPorDenominacion('Coca', 0, 10);
     
-    expect(resultado.length).toBeGreaterThan(0);
+    expect(resultado.data.length).toBeGreaterThan(0);
   });
 
   it('CR-004: debe ser case-insensitive en búsqueda de denominación', async () => {
-    mockQueryBuilder.getMany.mockResolvedValue([mockProductos[0]]);
+    mockQueryBuilder.skip.mockReturnThis();
+    mockQueryBuilder.take.mockReturnThis();
+    mockQueryBuilder.getManyAndCount.mockResolvedValue([[mockProductos[0]], 1]);
     
-    const resultado = await service.buscarPorDenominacion('coca cola');
+    const resultado = await service.buscarPorDenominacion('coca cola', 0, 10);
     
-    expect(resultado.length).toBeGreaterThan(0);
+    expect(resultado.data.length).toBeGreaterThan(0);
   });
 
   it('CR-004: debe retornar vacío si no hay coincidencias en denominación', async () => {
-    mockQueryBuilder.getMany.mockResolvedValue([]);
+    mockQueryBuilder.skip.mockReturnThis();
+    mockQueryBuilder.take.mockReturnThis();
+    mockQueryBuilder.getManyAndCount.mockResolvedValue([[], 0]);
     
-    const resultado = await service.buscarPorDenominacion('Producto Inexistente');
+    const resultado = await service.buscarPorDenominacion('Producto Inexistente', 0, 10);
     
-    expect(resultado).toHaveLength(0);
+    expect(resultado.data).toHaveLength(0);
   });
 
   // ========== BÚSQUEDA POR LÍNEA ==========
 
   it('CR-004: debe buscar por ID de Línea', async () => {
     const productosLinea1 = mockProductos.filter(p => p.linea.id === 1);
+    
+    mockQueryBuilder.where.mockReturnThis();
+    mockQueryBuilder.skip.mockReturnThis();
+    mockQueryBuilder.take.mockReturnThis();
     mockQueryBuilder.getManyAndCount.mockResolvedValue([productosLinea1, productosLinea1.length]);
     
     const resultado = await service.buscarPorLinea(1, 0, 10);
     
-    expect(mockQueryBuilder.andWhere).toHaveBeenCalled();
+    expect(mockQueryBuilder.where).toHaveBeenCalledWith('linea.id = :lineaId', { lineaId: 1 });
     expect(resultado.data.every(p => p.linea.id === 1)).toBe(true);
+    expect(resultado.data).toHaveLength(productosLinea1.length);
   });
 
   it('CR-004: debe buscar por denominación de Línea', async () => {
@@ -142,5 +155,4 @@ describe('ProductoSearchService — CR-004 Búsqueda', () => {
   it('CR-004: debe manejar búsqueda vacía sin errores', async () => {
     mockQueryBuilder.getManyAndCount.mockResolvedValue([mockProductos, mockProductos.length]);
   });
-    
-})
+});
